@@ -2,10 +2,33 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="https://unpkg.com/vue-material@0.5.2/dist/vue-material.css">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+    <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
     <title>client</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <md-layout md-gutter>
+
+        <md-layout md-flex-xsmall="100" md-flex-large="20" md-flex-xlarge="20">
+          <sidebar></sidebar>
+        </md-layout>
+
+        <md-layout md-column md-flex-xsmall="100" md-flex-large="80" md-flex-xlarge="80">
+
+          <md-layout md-gutter>
+            <navigation></navigation>
+          </md-layout>
+
+          <md-layout md-gutter>
+            <router-view></router-view>
+          </md-layout>
+
+        </md-layout>
+
+      </md-layout>
+    </div>
     <!-- built files will be auto injected -->
   </body>
 </html>

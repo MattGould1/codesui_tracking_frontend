@@ -1,6 +1,6 @@
 # client
 
-> automation for md/dd
+> tracking for all
 
 ## Build Setup
 
