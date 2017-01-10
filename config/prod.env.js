@@ -1,4 +1,4 @@
 module.exports = {
   NODE_ENV: '"production"',
-  API_URL: 'http://127.0.0.1:3333'
+  CS_URL: '"http://localhost:3333"'
 }
