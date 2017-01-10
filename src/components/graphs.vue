@@ -47,13 +47,13 @@ export default {
         title: 'Cohort Sessions Over Time',
         hAxis: {
           title: 'Datetime',
-          minValue: '2016-01-08T05:25:35.000Z',
-          maxValue: '2018-01-08T05:25:35.000Z'
+          minValue: '',
+          maxValue: ''
         },
         vAxis: {
           title: 'Sessions',
           minValue: 0,
-          maxValue: 10
+          maxValue: 1
         },
         width: 900,
         height: 500,
