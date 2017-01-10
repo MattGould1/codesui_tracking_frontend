@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import { testResource } from 'src/helpers/resources'
+
 export default {
   name: 'graphs',
   data () {
@@ -47,9 +49,22 @@ export default {
         curveType: 'function'
       }
     }
-  }
+  },
+  methods: {
+    test () {
+      return testResource
+        .get()
+        .then((response) => {
+          console.log(response)
+        }, (errorResponse) => {
+          console.log(errorResponse)
+        })
+    }
+  },
+  created   () {
+    this.test()
+  } 
 }
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
