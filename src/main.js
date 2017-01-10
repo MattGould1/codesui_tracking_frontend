@@ -6,6 +6,7 @@ import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 import VueMaterial from 'vue-material'
+import VueCharts from 'vue-charts'
 
 // custom components
 import Navigation from './components/Navigation/navigation'
@@ -15,6 +16,7 @@ Vue.use(Vuex)
 Vue.use(VueRouter)
 Vue.use(VueResource)
 Vue.use(VueMaterial)
+Vue.use(VueCharts)
 
 const store = new Vuex.Store({
   state: {
