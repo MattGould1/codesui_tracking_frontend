@@ -18,3 +18,5 @@ Vue.http.interceptors.push((request, next) => {
 })
 
 export const testResource = Vue.resource(Vue.http.options.root + '/test')
+
+export const reportResource = Vue.resource(Vue.http.options.root + '/report')

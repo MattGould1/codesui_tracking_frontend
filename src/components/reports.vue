@@ -67,8 +67,8 @@ export default {
           row.engagement = piece.sessions.total_unique
           row.conversions = piece.activity.sum_leads_contact + piece.activity.sum_leads_subscribe + piece.activity.sum_leads_purchase
           row.gross_purchases = piece.activity.sum_leads_purchase
-          row.converted_sessions = Math.round(piece.sessions.total_unique / (piece.activity.sum_leads_contact + piece.activity.sum_leads_subscribe), 0)
-          row.converted_purchases = Math.round(piece.sessions.total_unique / piece.activity.sum_leads_purchase, 0)
+          row.converted_sessions = piece.activity.sum_leads_contact + piece.activity.sum_leads_subscribe ? Math.round(piece.sessions.total_unique / (piece.activity.sum_leads_contact + piece.activity.sum_leads_subscribe), 0) : 0
+          row.converted_purchases = piece.activity.sum_leads_purchase ? Math.round(piece.sessions.total_unique / piece.activity.sum_leads_purchase, 0) : 0
 
           $this.rows.push(row)
         })
