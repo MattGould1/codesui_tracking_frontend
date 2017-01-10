@@ -17,4 +17,4 @@ Vue.http.interceptors.push((request, next) => {
   });
 });
 
-export const signupResource = Vue.resource(API_BASE + 'signup');
+export const testResource = Vue.resource(Vue.config.API_URL + '/test')
