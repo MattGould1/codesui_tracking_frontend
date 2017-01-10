@@ -1,6 +1,6 @@
-# client
+# Installation
 
-> tracking for all
+> Make sure you've installed and got the CodeSui Tracking Backend setup listening on port 3333!!
 
 ## Build Setup
 
@@ -23,5 +23,3 @@ npm run e2e
 # run all tests
 npm test
 ```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
