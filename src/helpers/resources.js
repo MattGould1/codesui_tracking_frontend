@@ -1,11 +1,11 @@
-import Vue from 'vue';
-import VueResource from 'vue-resource';
+import Vue from 'vue'
+import VueResource from 'vue-resource'
 
-Vue.use(VueResource);
+Vue.use(VueResource)
 
 Vue.http.options = {
-  root: Vue.config.API_URL
-};
+  root: process.env.CS_URL
+}
 
 // var token = '';
 
@@ -14,7 +14,7 @@ Vue.http.options = {
 Vue.http.interceptors.push((request, next) => {
   next((response) => {
 
-  });
-});
+  })
+})
 
-export const testResource = Vue.resource(Vue.config.API_URL + '/test')
+export const testResource = Vue.resource(Vue.http.options.root + '/test')
