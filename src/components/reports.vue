@@ -3,28 +3,29 @@
     <h1>My awesome reports!</h1>
     <md-table-card md-with-hover>
       <md-card-header>
-        <div class="md-title">Weekly Report Overview</div>
+        <div class="md-title">At A Glance Weekly Report</div>
       </md-card-header>
+
       <md-card-content>
-        <md-table @select="onSelect" @sort="onSort" v-once>
+        <md-table @select="onSelect" @sort="onSort">
           <md-table-header>
             <md-table-row>
               <md-table-head md-sort-by="week">Week</md-table-head>
-              <md-table-head md-numeric>Spend</md-table-head>
+              <!-- <md-table-head md-numeric>Spend</md-table-head> -->
               <md-table-head md-numeric>Engagement</md-table-head>
               <md-table-head md-numeric>Conversions</md-table-head>
               <!-- ADD THIS LATER <md-table-head md-numeric>Leads</md-table-head>
               <md-table-head md-numeric>Assisted Leads</md-table-head> -->
               <md-table-head md-numeric>Gross Purchases</md-table-head>
-              <md-table-head md-numeric>Complete Purchases</md-table-head>
-              <md-table-head md-numeric>Billed Purchases</md-table-head>
+<!--               <md-table-head md-numeric>Complete Purchases</md-table-head>
+              <md-table-head md-numeric>Billed Purchases</md-table-head> -->
               <md-table-head md-numeric>Convt'd Sessions</md-table-head>
               <md-table-head md-numeric>Convt'd Purchases</md-table-head>
             </md-table-row>
           </md-table-header>
 
           <md-table-body>
-            <md-table-row v-for="(row, rowIndex) in nutrition" :key="rowIndex" :md-item="row" md-auto-select md-selection>
+            <md-table-row v-for="(row, rowIndex) in rows" :key="rowIndex" :md-item="row" md-auto-select md-selection>
               <md-table-cell v-for="(column, columnIndex) in row" :key="columnIndex" :md-numeric="columnIndex !== 'dessert' && columnIndex !== 'comment'" v-if="columnIndex !== 'type'">
                 {{ column }}
               </md-table-cell>
@@ -48,9 +49,32 @@
 </template>
 
 <script>
+import { reportResource } from 'src/helpers/resources'
+import _ from 'lodash'
 export default {
   name: 'reports',
   created () {
+    var $this = this
+
+    return reportResource
+      .get()
+      .then((response) => {
+        console.log(response.body.time)
+        _.forEach(response.body.time, function (piece) {
+          var row = {}
+
+          row.week = piece.week
+          row.engagement = piece.sessions.total_unique
+          row.conversions = piece.activity.sum_leads_contact + piece.activity.sum_leads_subscribe + piece.activity.sum_leads_purchase
+          row.gross_purchases = piece.activity.sum_leads_purchase
+          row.converted_sessions = Math.round(piece.sessions.total_unique / (piece.activity.sum_leads_contact + piece.activity.sum_leads_subscribe), 0)
+          row.converted_purchases = Math.round(piece.sessions.total_unique / piece.activity.sum_leads_purchase, 0)
+
+          $this.rows.push(row)
+        })
+      }, (errorResponse) => {
+        console.log(errorResponse)
+      })
   },
   methods: {
     onPagination (paginate) {
@@ -65,43 +89,7 @@ export default {
   },
   data () {
     return {
-      nutrition: [
-        {
-          dessert: 'Fro',
-          type: 'ice_cream',
-          calories: '159',
-          fat: '6.0',
-          comment: 'Icy'
-        },
-        {
-          dessert: 'Ice c',
-          type: 'ice_cream',
-          calories: '237',
-          fat: '9.0',
-          comment: 'Super Tasty'
-        },
-        {
-          dessert: 'Ecl',
-          type: 'pastry',
-          calories: '262',
-          fat: '16.0',
-          comment: ''
-        },
-        {
-          dessert: 'Cupca',
-          type: 'pastry',
-          calories: '305',
-          fat: '3.7',
-          comment: ''
-        },
-        {
-          dessert: 'Ginge',
-          type: 'other',
-          calories: '356',
-          fat: '16.0',
-          comment: ''
-        }
-      ]
+      rows: []
     }
   }
 }
