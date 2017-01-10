@@ -1,14 +1,27 @@
 <template>
   <div class="sidebar">
     <md-whiteframe md-elevation="5">
-      <md-toolbar class="md-account-header">
-        <h1>Dashboard</h1>
-        <md-list>
-          <md-list-item>
-            <md-icon>move_to_inbox</md-icon> <span>Inbox</span>
-          </md-list-item>
-        </md-list>
-      </md-toolbar>
+      <md-list>
+
+        <md-list-item>
+          <router-link tag="span" :to="{ name: 'home' }" exact>
+            <md-icon>home</md-icon> <span>Overview</span>
+          </router-link>
+        </md-list-item>
+
+        <md-list-item>
+          <router-link tag="span" :to="{ name: 'graphs' }" exact>
+            <md-icon>trending_up</md-icon> <span>Graphs</span>
+          </router-link>
+        </md-list-item>
+
+        <md-list-item>
+          <router-link tag="span" :to="{ name: 'reports' }" exact>
+            <md-icon>date_range</md-icon> <span>Reports</span>
+          </router-link>
+        </md-list-item>
+
+      </md-list>
     </md-whiteframe>
   </div>
 </template>
@@ -25,21 +38,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
+  .sidebar {
+    width: 100%
+  }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
 </style>
