@@ -55,23 +55,25 @@ export default {
   name: 'reports',
   created () {
     var $this = this
-
+    var totals = 0
     return reportResource
       .get()
       .then((response) => {
         console.log(response.body.time)
         _.forEach(response.body.time, function (piece) {
           var row = {}
+          totals = totals + piece.sessions.total_unique
 
           row.week = piece.week
           row.engagement = piece.sessions.total_unique
           row.conversions = piece.activity.sum_leads_contact + piece.activity.sum_leads_subscribe + piece.activity.sum_leads_purchase
           row.gross_purchases = piece.activity.sum_leads_purchase
-          row.converted_sessions = piece.activity.sum_leads_contact + piece.activity.sum_leads_subscribe ? Math.round(piece.sessions.total_unique / (piece.activity.sum_leads_contact + piece.activity.sum_leads_subscribe), 0) : 0
-          row.converted_purchases = piece.activity.sum_leads_purchase ? Math.round(piece.sessions.total_unique / piece.activity.sum_leads_purchase, 0) : 0
+          row.converted_sessions = piece.activity.sum_leads_contact + piece.activity.sum_leads_subscribe ? +(((piece.activity.sum_leads_contact + piece.activity.sum_leads_subscribe) / piece.sessions.total_unique * 100)).toFixed(2) + '%' : 0
+          row.converted_purchases = piece.activity.sum_leads_purchase ? +((piece.activity.sum_leads_purchase / piece.sessions.total_unique * 100)).toFixed(2) + '%' : 0
 
           $this.rows.push(row)
         })
+        console.log(totals)
       }, (errorResponse) => {
         console.log(errorResponse)
       })
