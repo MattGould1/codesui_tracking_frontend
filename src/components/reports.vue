@@ -3,7 +3,7 @@
     <h1>My awesome reports!</h1>
     <md-table-card md-with-hover>
       <md-card-header>
-        <div class="md-title">Weekly Report</div>
+        <div class="md-title">Weekly Report Overview</div>
       </md-card-header>
       <md-card-content>
         <md-table @select="onSelect" @sort="onSort" v-once>
@@ -13,8 +13,13 @@
               <md-table-head md-numeric>Spend</md-table-head>
               <md-table-head md-numeric>Engagement</md-table-head>
               <md-table-head md-numeric>Conversions</md-table-head>
-              <md-table-head md-numeric>Leads</md-table-head>
-
+              <!-- ADD THIS LATER <md-table-head md-numeric>Leads</md-table-head>
+              <md-table-head md-numeric>Assisted Leads</md-table-head> -->
+              <md-table-head md-numeric>Gross Purchases</md-table-head>
+              <md-table-head md-numeric>Complete Purchases</md-table-head>
+              <md-table-head md-numeric>Billed Purchases</md-table-head>
+              <md-table-head md-numeric>Convt'd Sessions</md-table-head>
+              <md-table-head md-numeric>Convt'd Purchases</md-table-head>
             </md-table-row>
           </md-table-header>
 
@@ -46,7 +51,6 @@
 export default {
   name: 'reports',
   created () {
-    
   },
   methods: {
     onPagination (paginate) {
@@ -63,35 +67,35 @@ export default {
     return {
       nutrition: [
         {
-          dessert: 'Frozen yogurt',
+          dessert: 'Fro',
           type: 'ice_cream',
           calories: '159',
           fat: '6.0',
           comment: 'Icy'
         },
         {
-          dessert: 'Ice cream sandwich',
+          dessert: 'Ice c',
           type: 'ice_cream',
           calories: '237',
           fat: '9.0',
           comment: 'Super Tasty'
         },
         {
-          dessert: 'Eclair',
+          dessert: 'Ecl',
           type: 'pastry',
           calories: '262',
           fat: '16.0',
           comment: ''
         },
         {
-          dessert: 'Cupcake',
+          dessert: 'Cupca',
           type: 'pastry',
           calories: '305',
           fat: '3.7',
           comment: ''
         },
         {
-          dessert: 'Gingerbread',
+          dessert: 'Ginge',
           type: 'other',
           calories: '356',
           fat: '16.0',
