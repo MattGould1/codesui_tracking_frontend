@@ -2,6 +2,7 @@
   <div class="graphs">
     <h1>My awesome graphs!</h1>
     <vue-chart
+        chart-type="AreaChart"
         :columns="columns"
         :rows="rows"
         :options="options"
@@ -14,6 +15,20 @@ import { testResource } from 'src/helpers/resources'
 
 export default {
   name: 'graphs',
+  created () {
+    var $this = this
+
+    return testResource
+      .get()
+      .then((response) => {
+        $this.rows = response.body.rows
+        $this.options.hAxis.minValue = response.body.dateFrom
+        $this.options.hAxis.maxValue = response.body.dateTo
+        $this.options.vAxis.maxValue = response.body.max
+      }, (errorResponse) => {
+        console.log(errorResponse)
+      })
+  },
   data () {
     return {
       columns: [{
@@ -21,28 +36,24 @@ export default {
         'label': 'Year'
       }, {
         'type': 'number',
-        'label': 'Sales'
+        'label': 'Sessions with activity'
       }, {
         'type': 'number',
-        'label': 'Expenses'
+        'label': 'Sessions without activity'
       }],
       rows: [
-        ['2004', 1000, 400],
-        ['2005', 1170, 460],
-        ['2006', 660, 1120],
-        ['2007', 1030, 540]
       ],
       options: {
-        title: 'Company Performance',
+        title: 'Cohort Sessions Over Time',
         hAxis: {
-          title: 'Year',
-          minValue: '2004',
-          maxValue: '2007'
+          title: 'Datetime',
+          minValue: '2016-01-08T05:25:35.000Z',
+          maxValue: '2018-01-08T05:25:35.000Z'
         },
         vAxis: {
-          title: '',
-          minValue: 300,
-          maxValue: 1200
+          title: 'Sessions',
+          minValue: 0,
+          maxValue: 10
         },
         width: 900,
         height: 500,
@@ -51,18 +62,6 @@ export default {
     }
   },
   methods: {
-    test () {
-      return testResource
-        .get()
-        .then((response) => {
-          console.log(response)
-        }, (errorResponse) => {
-          console.log(errorResponse)
-        })
-    }
-  },
-  created   () {
-    this.test()
   }
 }
 </script>
