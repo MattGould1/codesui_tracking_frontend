@@ -16,6 +16,7 @@
       <md-input-container>
         <label for="utm_term">UTM Term</label>
         <md-select name="utm_term" id="utm_term" multiple v-model="utm_terms">
+
           <md-option value="toby_flenderson">Toby Flenderson</md-option>
           <md-option value="stanley_hudson">Stanley Hudson</md-option>
           <md-option value="meredith_palmer">Meredith Palmer</md-option>
@@ -24,7 +25,6 @@
       </md-input-container>
     </div>
 
-    <h1>My awesome reports!11</h1>
     <md-table-card md-with-hover>
       <md-card-header>
         <div class="md-title">My awesome report!</div>
@@ -83,7 +83,10 @@ export default {
     return reportResource
       .get()
       .then((response) => {
-        console.log(response.body.time)
+        _.forEach(response.body.filter_options, function (piece) {
+          $this.filters.
+        })
+
         _.forEach(response.body.time, function (piece) {
           var row = {}
           totals = totals + piece.sessions.total_unique
@@ -120,7 +123,8 @@ export default {
       utm_terms: [],
       utm_sources: [],
       utm_contents: [],
-      utm_mediums: []
+      utm_mediums: [],
+      filters: {}
     }
   }
 }
