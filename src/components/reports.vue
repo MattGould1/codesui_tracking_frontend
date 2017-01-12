@@ -1,13 +1,7 @@
 <template>
   <div class="reports">
-
-    <md-bottom-bar>
-      <md-bottom-bar-item md-icon="history">Weekly</md-bottom-bar-item>
-      <md-bottom-bar-item md-icon="favorite" md-active>Monthly</md-bottom-bar-item>
-      <md-bottom-bar-item md-icon="favorite">Quarterly</md-bottom-bar-item>
-      <md-bottom-bar-item md-icon="favorite">Yearly</md-bottom-bar-item>
-    </md-bottom-bar>
-
+    <md-toolbar class="md-dense">
+    </md-toolbar>
     <div class="field-group">
       <md-input-container>
         <label for="utm_name">UTM Name</label>
@@ -28,13 +22,12 @@
           <md-option value="phyllis_lapin_vance">Phyllis Lapin-Vance</md-option>
         </md-select>
       </md-input-container>
-
     </div>
 
-    <h1>My awesome reports!</h1>
+    <h1>My awesome reports!11</h1>
     <md-table-card md-with-hover>
       <md-card-header>
-        <div class="md-title">At A Glance Weekly Report</div>
+        <div class="md-title">My awesome report!</div>
       </md-card-header>
 
       <md-card-content>
