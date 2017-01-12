@@ -1,5 +1,9 @@
 <template>
   <div class="graphs">
+    <md-bottom-bar>
+      <md-bottom-bar-item md-icon="history">Weekly</md-bottom-bar-item>
+      <md-bottom-bar-item md-icon="favorite" md-active>Monthly</md-bottom-bar-item>
+    </md-bottom-bar>
     <h1>My awesome graphs!</h1>
     <vue-chart
         chart-type="AreaChart"
@@ -68,4 +72,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .graphs {
+    width: 100%;
+  }
 </style>
