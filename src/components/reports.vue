@@ -1,5 +1,36 @@
 <template>
   <div class="reports">
+
+    <md-bottom-bar>
+      <md-bottom-bar-item md-icon="history">Weekly</md-bottom-bar-item>
+      <md-bottom-bar-item md-icon="favorite" md-active>Monthly</md-bottom-bar-item>
+      <md-bottom-bar-item md-icon="favorite">Quarterly</md-bottom-bar-item>
+      <md-bottom-bar-item md-icon="favorite">Yearly</md-bottom-bar-item>
+    </md-bottom-bar>
+
+    <div class="field-group">
+      <md-input-container>
+        <label for="utm_name">UTM Name</label>
+        <md-select name="utm_name" id="utm_name" multiple v-model="utm_names">
+          <md-option value="toby_flenderson">Toby Flenderson</md-option>
+          <md-option value="stanley_hudson">Stanley Hudson</md-option>
+          <md-option value="meredith_palmer">Meredith Palmer</md-option>
+          <md-option value="phyllis_lapin_vance">Phyllis Lapin-Vance</md-option>
+        </md-select>
+      </md-input-container>
+
+      <md-input-container>
+        <label for="utm_term">UTM Term</label>
+        <md-select name="utm_term" id="utm_term" multiple v-model="utm_terms">
+          <md-option value="toby_flenderson">Toby Flenderson</md-option>
+          <md-option value="stanley_hudson">Stanley Hudson</md-option>
+          <md-option value="meredith_palmer">Meredith Palmer</md-option>
+          <md-option value="phyllis_lapin_vance">Phyllis Lapin-Vance</md-option>
+        </md-select>
+      </md-input-container>
+
+    </div>
+
     <h1>My awesome reports!</h1>
     <md-table-card md-with-hover>
       <md-card-header>
@@ -91,7 +122,12 @@ export default {
   },
   data () {
     return {
-      rows: []
+      rows: [],
+      utm_names: [],
+      utm_terms: [],
+      utm_sources: [],
+      utm_contents: [],
+      utm_mediums: []
     }
   }
 }
