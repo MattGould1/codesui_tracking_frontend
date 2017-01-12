@@ -20,5 +20,6 @@ export default {
 <style scoped>
   .navigation {
     width: 100%;
+    height: 40px;
   }
 </style>
