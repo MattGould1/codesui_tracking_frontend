@@ -1,49 +1,43 @@
 <template>
   <div class="reports">
-    <md-toolbar class="md-dense">
-    </md-toolbar>
-
     <div class="field-group">
       <md-input-container>
-        <label for="utm_name">UTM Name</label>
-        <md-select name="utm_name" id="utm_name" multiple v-model="utm_names">
+        <label for="utm_names">UTM Name</label>
+        {{ filters.utm_name }}
+        {{ utm_names }}
+        <md-select name="utm_names" id="utm_names" @selected="change('utm_names')" multiple v-model="utm_names">
           <md-option v-for="(value, index) in filters.utm_name" :value="value">{{ value }}</md-option>
         </md-select>
       </md-input-container>
-<!--         utm_name: [],
-        utm_term: [],
-        utm_source: [],
-        utm_content: [],
-        utm_medium: [] -->
+
       <md-input-container>
-        <label for="utm_name">UTM Term</label>
-        <md-select name="utm_term" id="utm_term" multiple v-model="utm_terms">
+        <label for="utm_term">UTM Term</label>
+        <md-select name="utm_term" id="utm_term" @change="change('utm_terms')" multiple v-model="utm_terms">
           <md-option v-for="(value, index) in filters.utm_term" :value="value">{{ value }}</md-option>
         </md-select>
       </md-input-container>
-
+<!--       {{ utm_sources }}
       <md-input-container>
-        <label for="utm_name">UTM Source</label>
-        <md-select name="utm_source" id="utm_source" multiple v-model="utm_sources">
+        <label for="utm_source">UTM Source</label>
+        <md-select name="utm_source" id="utm_source" @change="change('utm_sources')" multiple v-model="utm_sources">
           <md-option v-for="(value, index) in filters.utm_source" :value="value">{{ value }}</md-option>
         </md-select>
       </md-input-container>
-
+      {{ utm_contents }}
       <md-input-container>
-        <label for="utm_name">UTM Content</label>
-        <md-select name="utm_content" id="utm_content" multiple v-model="utm_contents">
+        <label for="utm_content">UTM Content</label>
+        <md-select name="utm_content" id="utm_content" @change="change('utm_contents')" multiple v-model="utm_contents">
           <md-option v-for="(value, index) in filters.utm_content" :value="value">{{ value }}</md-option>
         </md-select>
       </md-input-container>
 
       <md-input-container>
-        <label for="utm_name">UTM Medium</label>
-        <md-select name="utm_medium" id="utm_medium" multiple v-model="utm_mediums">
+        <label for="utm_medium">UTM Medium</label>
+        <md-select name="utm_medium" id="utm_medium" @change="change('utm_mediums')" multiple v-model="utm_mediums">
           <md-option v-for="(value, index) in filters.utm_medium" :value="value">{{ value }}</md-option>
         </md-select>
-      </md-input-container>
+      </md-input-container> -->
 
-      <md-button class="md-raised md-primary" @click="filterReport">Filter!</md-button>
     </div>
 
     <md-table-card md-with-hover>
@@ -94,36 +88,16 @@
 </template>
 
 <script>
-import { reportResource } from 'src/helpers/resources'
+import { reportResource, filterReportResource } from 'src/helpers/resources'
 import _ from 'lodash'
+
 export default {
   name: 'reports',
   created () {
-    var $this = this
-    var totals = 0
     return reportResource
       .get()
       .then((response) => {
-        _.forEach(response.body.filter_options, function (piece) {
-          _.forEach(piece, function (utmTags, utmTag) { // use the piece key to assign the array to the utm tag
-            $this.filters[utmTag] = piece[utmTag]
-          })
-        })
-
-        _.forEach(response.body.time, function (piece) {
-          var row = {}
-          totals = totals + piece.sessions.total_unique
-          // until I have more time, this is the best way of handling this (i wanna do it on the backend and return a complete array that can just be == rows)
-          row.week = piece.week
-          row.engagement = piece.sessions.total_unique
-          row.conversions = piece.activity.sum_leads_contact + piece.activity.sum_leads_subscribe + piece.activity.sum_leads_purchase
-          row.gross_purchases = piece.activity.sum_leads_purchase
-          row.converted_sessions = piece.activity.sum_leads_contact + piece.activity.sum_leads_subscribe ? +(((piece.activity.sum_leads_contact + piece.activity.sum_leads_subscribe) / piece.sessions.total_unique * 100)).toFixed(2) + '%' : 0
-          row.converted_purchases = piece.activity.sum_leads_purchase ? +((piece.activity.sum_leads_purchase / piece.sessions.total_unique * 100)).toFixed(2) + '%' : 0
-
-          $this.rows.push(row)
-        })
-        console.log(totals)
+        this.updateReport(response.body)
       }, (errorResponse) => {
         console.log(errorResponse)
       })
@@ -138,9 +112,51 @@ export default {
     onSort (sort) {
       console.log(sort)
     },
-    filterReport () {
-      console.log('filtering!')
-      console.log(this.utm_names)
+    change (filter) {
+      this.updateFilters(filter)
+    },
+    updateReport (data) {
+      var $this = this
+      $this.rows = [] // clear the current data
+      var totals = 0
+      _.forEach(data.filter_options, function (piece) {
+        _.forEach(piece, function (utmTags, utmTag) { // use the piece key to assign the array to the utm tag
+          $this.filters[utmTag] = piece[utmTag]
+        })
+      })
+
+      _.forEach(data.time, function (piece) {
+        var row = {}
+        totals = totals + piece.sessions.total_unique
+        // until I have more time, this is the best way of handling this (i wanna do it on the backend and return a complete array that can just be == rows)
+        row.week = piece.week
+        row.engagement = piece.sessions.total_unique
+        row.conversions = piece.activity.sum_leads_contact + piece.activity.sum_leads_subscribe + piece.activity.sum_leads_purchase
+        row.gross_purchases = piece.activity.sum_leads_purchase
+        row.converted_sessions = piece.activity.sum_leads_contact + piece.activity.sum_leads_subscribe ? +(((piece.activity.sum_leads_contact + piece.activity.sum_leads_subscribe) / piece.sessions.total_unique * 100)).toFixed(2) + '%' : 0
+        row.converted_purchases = piece.activity.sum_leads_purchase ? +((piece.activity.sum_leads_purchase / piece.sessions.total_unique * 100)).toFixed(2) + '%' : 0
+
+        $this.rows.push(row)
+      })
+
+      console.log(totals)
+    },
+    updateFilters () {
+      var filters = {
+        utm_name: this.utm_names,
+        utm_term: this.utm_terms,
+        utm_source: this.utm_sources,
+        utm_content: this.utm_contents,
+        utm_medium: this.utm_mediums
+      }
+
+      return filterReportResource
+        .save(filters)
+        .then((response) => {
+          this.updateReport(response.body)
+        }, (errorResponse) => {
+          console.log(errorResponse)
+        })
     }
   },
   data () {
