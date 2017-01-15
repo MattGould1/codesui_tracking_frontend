@@ -2,14 +2,12 @@
   <div class="reports">
     <md-toolbar class="md-dense">
     </md-toolbar>
+            {{ filters }}
     <div class="field-group">
       <md-input-container>
         <label for="utm_name">UTM Name</label>
         <md-select name="utm_name" id="utm_name" multiple v-model="utm_names">
-          <md-option value="toby_flenderson">Toby Flenderson</md-option>
-          <md-option value="stanley_hudson">Stanley Hudson</md-option>
-          <md-option value="meredith_palmer">Meredith Palmer</md-option>
-          <md-option value="phyllis_lapin_vance">Phyllis Lapin-Vance</md-option>
+          <md-option v-for="(value, index) in filters.utm_name">{{ value }}</md-option>
         </md-select>
       </md-input-container>
 
@@ -84,13 +82,15 @@ export default {
       .get()
       .then((response) => {
         _.forEach(response.body.filter_options, function (piece) {
-          $this.filters.
+          _.forEach(piece, function (utmTags, utmTag) { // use the piece key to assign the array to the utm tag
+            $this.filters[utmTag] = piece[utmTag]
+          })
         })
 
         _.forEach(response.body.time, function (piece) {
           var row = {}
           totals = totals + piece.sessions.total_unique
-
+          // until I have more time, this is the best way of handling this (i wanna do it on the backend and return a complete array that can just be == rows)
           row.week = piece.week
           row.engagement = piece.sessions.total_unique
           row.conversions = piece.activity.sum_leads_contact + piece.activity.sum_leads_subscribe + piece.activity.sum_leads_purchase
@@ -124,7 +124,13 @@ export default {
       utm_sources: [],
       utm_contents: [],
       utm_mediums: [],
-      filters: {}
+      filters: {
+        utm_name: [],
+        utm_term: [],
+        utm_source: [],
+        utm_content: [],
+        utm_medium: []
+      }
     }
   }
 }
