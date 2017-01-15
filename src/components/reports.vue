@@ -2,23 +2,23 @@
   <div class="reports">
     <md-toolbar class="md-dense">
     </md-toolbar>
-            {{ filters }}
+    
     <div class="field-group">
       <md-input-container>
         <label for="utm_name">UTM Name</label>
         <md-select name="utm_name" id="utm_name" multiple v-model="utm_names">
-          <md-option v-for="(value, index) in filters.utm_name">{{ value }}</md-option>
+          <md-option v-for="(value, index) in filters.utm_name" >{{ value }}</md-option>
         </md-select>
       </md-input-container>
-
+<!--         utm_name: [],
+        utm_term: [],
+        utm_source: [],
+        utm_content: [],
+        utm_medium: [] -->
       <md-input-container>
-        <label for="utm_term">UTM Term</label>
+        <label for="utm_name">UTM Term</label>
         <md-select name="utm_term" id="utm_term" multiple v-model="utm_terms">
-
-          <md-option value="toby_flenderson">Toby Flenderson</md-option>
-          <md-option value="stanley_hudson">Stanley Hudson</md-option>
-          <md-option value="meredith_palmer">Meredith Palmer</md-option>
-          <md-option value="phyllis_lapin_vance">Phyllis Lapin-Vance</md-option>
+          <md-option v-for="(value, index) in filters.utm_term" >{{ value }}</md-option>
         </md-select>
       </md-input-container>
     </div>
