@@ -29,6 +29,12 @@
         </md-select>
       </md-input-container>
 
+      <md-input-container>
+        <label for="utm_name">UTM Content</label>
+        <md-select name="utm_content" id="utm_content" multiple v-model="utm_contents">
+          <md-option v-for="(value, index) in filters.utm_content" >{{ value }}</md-option>
+        </md-select>
+      </md-input-container>
     </div>
 
     <md-table-card md-with-hover>
