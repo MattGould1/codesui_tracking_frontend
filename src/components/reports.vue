@@ -35,6 +35,13 @@
           <md-option v-for="(value, index) in filters.utm_content" >{{ value }}</md-option>
         </md-select>
       </md-input-container>
+
+      <md-input-container>
+        <label for="utm_name">UTM Medium</label>
+        <md-select name="utm_medium" id="utm_medium" multiple v-model="utm_mediums">
+          <md-option v-for="(value, index) in filters.utm_medium" >{{ value }}</md-option>
+        </md-select>
+      </md-input-container>
     </div>
 
     <md-table-card md-with-hover>
