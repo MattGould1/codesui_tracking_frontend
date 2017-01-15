@@ -7,7 +7,7 @@
       <md-input-container>
         <label for="utm_name">UTM Name</label>
         <md-select name="utm_name" id="utm_name" multiple v-model="utm_names">
-          <md-option v-for="(value, index) in filters.utm_name" >{{ value }}</md-option>
+          <md-option v-for="(value, index) in filters.utm_name" :value="value">{{ value }}</md-option>
         </md-select>
       </md-input-container>
 <!--         utm_name: [],
@@ -18,30 +18,32 @@
       <md-input-container>
         <label for="utm_name">UTM Term</label>
         <md-select name="utm_term" id="utm_term" multiple v-model="utm_terms">
-          <md-option v-for="(value, index) in filters.utm_term" >{{ value }}</md-option>
+          <md-option v-for="(value, index) in filters.utm_term" :value="value">{{ value }}</md-option>
         </md-select>
       </md-input-container>
 
       <md-input-container>
         <label for="utm_name">UTM Source</label>
         <md-select name="utm_source" id="utm_source" multiple v-model="utm_sources">
-          <md-option v-for="(value, index) in filters.utm_source" >{{ value }}</md-option>
+          <md-option v-for="(value, index) in filters.utm_source" :value="value">{{ value }}</md-option>
         </md-select>
       </md-input-container>
 
       <md-input-container>
         <label for="utm_name">UTM Content</label>
         <md-select name="utm_content" id="utm_content" multiple v-model="utm_contents">
-          <md-option v-for="(value, index) in filters.utm_content" >{{ value }}</md-option>
+          <md-option v-for="(value, index) in filters.utm_content" :value="value">{{ value }}</md-option>
         </md-select>
       </md-input-container>
 
       <md-input-container>
         <label for="utm_name">UTM Medium</label>
         <md-select name="utm_medium" id="utm_medium" multiple v-model="utm_mediums">
-          <md-option v-for="(value, index) in filters.utm_medium" >{{ value }}</md-option>
+          <md-option v-for="(value, index) in filters.utm_medium" :value="value">{{ value }}</md-option>
         </md-select>
       </md-input-container>
+
+      <md-button class="md-raised md-primary" @click="filterReport">Filter!</md-button>
     </div>
 
     <md-table-card md-with-hover>
@@ -135,6 +137,10 @@ export default {
     },
     onSort (sort) {
       console.log(sort)
+    },
+    filterReport () {
+      console.log('filtering!')
+      console.log(this.utm_names)
     }
   },
   data () {
