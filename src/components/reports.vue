@@ -2,7 +2,7 @@
   <div class="reports">
     <md-toolbar class="md-dense">
     </md-toolbar>
-    
+
     <div class="field-group">
       <md-input-container>
         <label for="utm_name">UTM Name</label>
@@ -21,6 +21,14 @@
           <md-option v-for="(value, index) in filters.utm_term" >{{ value }}</md-option>
         </md-select>
       </md-input-container>
+
+      <md-input-container>
+        <label for="utm_name">UTM Source</label>
+        <md-select name="utm_source" id="utm_source" multiple v-model="utm_sources">
+          <md-option v-for="(value, index) in filters.utm_source" >{{ value }}</md-option>
+        </md-select>
+      </md-input-container>
+
     </div>
 
     <md-table-card md-with-hover>
