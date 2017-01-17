@@ -54,25 +54,25 @@
       </md-card-header>
 
       <md-card-content>
-        <md-table @select="onSelect" @sort="onSort">
+        <md-table>
           <md-table-header>
             <md-table-row>
               <md-table-head md-sort-by="week">Week</md-table-head>
               <!-- <md-table-head md-numeric>Spend</md-table-head> -->
               <md-table-head md-numeric>Engagement</md-table-head>
               <md-table-head md-numeric>Conversions</md-table-head>
-              <!-- ADD THIS LATER <md-table-head md-numeric>Leads</md-table-head>
-              <md-table-head md-numeric>Assisted Leads</md-table-head> -->
+              <md-table-head md-numeric>Contacts</md-table-head>
+              <md-table-head md-numeric>Subscription</md-table-head>
               <md-table-head md-numeric>Gross Purchases</md-table-head>
 <!--               <md-table-head md-numeric>Complete Purchases</md-table-head>
               <md-table-head md-numeric>Billed Purchases</md-table-head> -->
-              <md-table-head md-numeric>Convt'd Sessions</md-table-head>
-              <md-table-head md-numeric>Convt'd Purchases</md-table-head>
+              <md-table-head md-numeric>Convt'd Sessions %</md-table-head>
+              <md-table-head md-numeric>Convt'd Purchases %</md-table-head>
             </md-table-row>
           </md-table-header>
 
           <md-table-body>
-            <md-table-row v-for="(row, rowIndex) in rows" :key="rowIndex" :md-item="row" md-auto-select md-selection>
+            <md-table-row v-for="(row, rowIndex) in rows" :key="rowIndex" :md-item="row">
               <md-table-cell v-for="(column, columnIndex) in row" :key="columnIndex" :md-numeric="columnIndex !== 'dessert' && columnIndex !== 'comment'" v-if="columnIndex !== 'type'">
                 {{ column }}
               </md-table-cell>
@@ -141,12 +141,15 @@ export default {
       }
 
       _.forEach(data.time, function (piece) {
+        console.log(piece)
         var row = {}
         totals = totals + piece.sessions.total_unique
         // until I have more time, this is the best way of handling this (i wanna do it on the backend and return a complete array that can just be == rows)
         row.week = piece.week
         row.engagement = piece.sessions.total_unique
         row.conversions = piece.activity.sum_leads_contact + piece.activity.sum_leads_subscribe + piece.activity.sum_leads_purchase
+        row.contact = piece.activity.sum_leads_contact
+        row.subscribe = piece.activity.sum_leads_subscribe
         row.gross_purchases = piece.activity.sum_leads_purchase
         row.converted_sessions = piece.activity.sum_leads_contact + piece.activity.sum_leads_subscribe ? +(((piece.activity.sum_leads_contact + piece.activity.sum_leads_subscribe) / piece.sessions.total_unique * 100)).toFixed(2) + '%' : 0
         row.converted_purchases = piece.activity.sum_leads_purchase ? +((piece.activity.sum_leads_purchase / piece.sessions.total_unique * 100)).toFixed(2) + '%' : 0
