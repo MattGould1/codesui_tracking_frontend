@@ -173,7 +173,7 @@ export default {
         utm_term: [],
         utm_source: [],
         utm_content: [],
-        utm_medium: [],
+        utm_medium: []
       }
     }
   }
