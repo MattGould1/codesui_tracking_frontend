@@ -3,8 +3,7 @@
     <div class="field-group">
       <md-input-container>
         <label for="utm_names">UTM Name</label>
-        {{ filters.utm_name }}
-        {{ utm_names }}
+
         <md-select name="utm_names" id="utm_names" @selected="change('utm_names')" multiple v-model="utm_names">
           <md-option v-for="(value, index) in filters.utm_name" :value="value">{{ value }}</md-option>
         </md-select>
@@ -16,14 +15,14 @@
           <md-option v-for="(value, index) in filters.utm_term" :value="value">{{ value }}</md-option>
         </md-select>
       </md-input-container>
-<!--       {{ utm_sources }}
+
       <md-input-container>
         <label for="utm_source">UTM Source</label>
         <md-select name="utm_source" id="utm_source" @change="change('utm_sources')" multiple v-model="utm_sources">
           <md-option v-for="(value, index) in filters.utm_source" :value="value">{{ value }}</md-option>
         </md-select>
       </md-input-container>
-      {{ utm_contents }}
+
       <md-input-container>
         <label for="utm_content">UTM Content</label>
         <md-select name="utm_content" id="utm_content" @change="change('utm_contents')" multiple v-model="utm_contents">
@@ -36,8 +35,7 @@
         <md-select name="utm_medium" id="utm_medium" @change="change('utm_mediums')" multiple v-model="utm_mediums">
           <md-option v-for="(value, index) in filters.utm_medium" :value="value">{{ value }}</md-option>
         </md-select>
-      </md-input-container> -->
-
+      </md-input-container>
     </div>
 
     <md-table-card md-with-hover>
@@ -97,7 +95,7 @@ export default {
     return reportResource
       .get()
       .then((response) => {
-        this.updateReport(response.body)
+        this.updateReport(response.body, true)
       }, (errorResponse) => {
         console.log(errorResponse)
       })
@@ -115,15 +113,18 @@ export default {
     change (filter) {
       this.updateFilters(filter)
     },
-    updateReport (data) {
+    updateReport (data, updateFilters) {
       var $this = this
       $this.rows = [] // clear the current data
       var totals = 0
-      _.forEach(data.filter_options, function (piece) {
-        _.forEach(piece, function (utmTags, utmTag) { // use the piece key to assign the array to the utm tag
-          $this.filters[utmTag] = piece[utmTag]
+
+      if (updateFilters === true) {
+        _.forEach(data.filter_options, function (piece) {
+          _.forEach(piece, function (utmTags, utmTag) { // use the piece key to assign the array to the utm tag
+            $this.filters[utmTag] = piece[utmTag]
+          })
         })
-      })
+      }
 
       _.forEach(data.time, function (piece) {
         var row = {}
@@ -153,7 +154,7 @@ export default {
       return filterReportResource
         .save(filters)
         .then((response) => {
-          this.updateReport(response.body)
+          this.updateReport(response.body, false)
         }, (errorResponse) => {
           console.log(errorResponse)
         })
@@ -172,7 +173,7 @@ export default {
         utm_term: [],
         utm_source: [],
         utm_content: [],
-        utm_medium: []
+        utm_medium: [],
       }
     }
   }
