@@ -36,6 +36,16 @@
           <md-option v-for="(value, index) in filters.utm_medium" :value="value">{{ value }}</md-option>
         </md-select>
       </md-input-container>
+
+      <md-input-container>
+        <span class="datetime">Week From:</span>
+        <date-picker :date="startTime" @change="change('week_from')" :option="option"></date-picker>
+      </md-input-container>
+
+      <md-input-container>
+        <span class="datetime">Week To:</span>
+        <date-picker :date="stopTime" @change="change('week_to')" :option="option"></date-picker>
+      </md-input-container>
     </div>
 
     <md-table-card md-with-hover>
@@ -88,9 +98,13 @@
 <script>
 import { reportResource, filterReportResource } from 'src/helpers/resources'
 import _ from 'lodash'
+import DatePicker from 'vue-datepicker'
 
 export default {
   name: 'reports',
+  components: {
+    'date-picker': DatePicker
+  },
   created () {
     return reportResource
       .get()
@@ -148,7 +162,11 @@ export default {
         utm_term: this.utm_terms,
         utm_source: this.utm_sources,
         utm_content: this.utm_contents,
-        utm_medium: this.utm_mediums
+        utm_medium: this.utm_mediums,
+        iso_week: {
+          week_from: this.startTime.time,
+          week_to: this.stopTime.time
+        }
       }
 
       return filterReportResource
@@ -174,6 +192,36 @@ export default {
         utm_source: [],
         utm_content: [],
         utm_medium: []
+      },
+      // datepicker options
+      startTime: {
+        time: ''
+      },
+      stopTime: {
+        time: ''
+      },
+      option: {
+        type: 'day',
+        week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+        month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        format: 'YYYY-MM-DD',
+        placeholder: 'when?',
+        inputStyle: {
+          'display': 'inline-block',
+          'padding': '6px',
+          'line-height': '22px',
+          'font-size': '16px',
+          'border': '2px solid #fff',
+          'box-shadow': '0 1px 3px 0 rgba(0, 0, 0, 0.2)',
+          'border-radius': '2px',
+          'color': '#5F5F5F'
+        },
+        buttons: {
+          ok: 'Ok',
+          cancel: 'Cancel'
+        },
+        overlayOpacity: 0.5, // 0.5 as default
+        dismissible: true // as true as default
       }
     }
   }
@@ -182,4 +230,16 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.field-group {
+  display: flex;
+}
+.md-input-container {
+  margin-right: 10px;
+}
+.datetime {
+  top: 0;
+  position: absolute;
+  font-size: 12px;
+  color: rgba(0,0,0,.54);
+}
 </style>
