@@ -2,6 +2,14 @@
   <div class="reports">
     <div class="field-group">
       <md-input-container>
+        <label for="source">Source</label>
+
+        <md-select name="source" id="source" @selected="change('utm_names')" multiple v-model="source">
+          <md-option v-for="(value, index) in filters.source" :value="value">{{ value }}</md-option>
+        </md-select>
+      </md-input-container>
+
+      <md-input-container>
         <label for="utm_names">UTM Name</label>
 
         <md-select name="utm_names" id="utm_names" @selected="change('utm_names')" multiple v-model="utm_names">
@@ -135,6 +143,7 @@ export default {
       if (updateFilters === true) {
         _.forEach(data.filter_options, function (piece) {
           _.forEach(piece, function (utmTags, utmTag) { // use the piece key to assign the array to the utm tag
+            console.log(utmTag)
             $this.filters[utmTag] = piece[utmTag]
           })
         })
@@ -166,6 +175,7 @@ export default {
         utm_source: this.utm_sources,
         utm_content: this.utm_contents,
         utm_medium: this.utm_mediums,
+        source: this.source,
         iso_week: {
           week_from: this.startTime.time,
           week_to: this.stopTime.time
@@ -185,12 +195,14 @@ export default {
     return {
       rows: [],
       utm_names: [],
+      source: [],
       utm_terms: [],
       utm_sources: [],
       utm_contents: [],
       utm_mediums: [],
       filters: {
         utm_name: [],
+        source: [],
         utm_term: [],
         utm_source: [],
         utm_content: [],
