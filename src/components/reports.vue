@@ -10,6 +10,30 @@
       </md-input-container>
 
       <md-input-container>
+        <label for="activity">Activity</label>
+
+        <md-select name="activity" id="activity" @selected="change('activity')" multiple v-model="activity">
+          <md-option v-for="(value, index) in filters.activity" :value="value">{{ value }}</md-option>
+        </md-select>
+      </md-input-container>
+
+      <md-input-container>
+        <label for="country">Country</label>
+
+        <md-select name="country" id="country" @selected="change('country')" multiple v-model="country">
+          <md-option v-for="(value, index) in filters.country" :value="value">{{ value }}</md-option>
+        </md-select>
+      </md-input-container>
+
+      <md-input-container>
+        <label for="city">City</label>
+
+        <md-select name="city" id="" @selected="change('city')" multiple v-model="city">
+          <md-option v-for="(value, index) in filters.city" :value="value">{{ value }}</md-option>
+        </md-select>
+      </md-input-container>
+
+      <md-input-container>
         <label for="utm_names">UTM Name</label>
 
         <md-select name="utm_names" id="utm_names" @selected="change('utm_names')" multiple v-model="utm_names">
@@ -175,7 +199,12 @@ export default {
         utm_source: this.utm_sources,
         utm_content: this.utm_contents,
         utm_medium: this.utm_mediums,
-        source: this.source,
+        utm_name_split: {
+          source: this.source,
+          activity: this.activity,
+          country: this.country,
+          city: this.city
+        },
         iso_week: {
           week_from: this.startTime.time,
           week_to: this.stopTime.time
@@ -196,6 +225,9 @@ export default {
       rows: [],
       utm_names: [],
       source: [],
+      activity: [],
+      country: [],
+      city: [],
       utm_terms: [],
       utm_sources: [],
       utm_contents: [],

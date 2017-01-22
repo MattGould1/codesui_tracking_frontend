@@ -17,7 +17,7 @@ const routes = [
   {
     path: '/reports',
     name: 'reports',
-    component: Reports,
+    component: Reports
     // children: [
     //   {
     //     path: 'weekly',
